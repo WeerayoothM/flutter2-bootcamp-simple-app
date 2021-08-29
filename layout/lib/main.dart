@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout/pages/bottomNavigation.dart';
 import 'package:layout/pages/home.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Harry Potter Review",
-      home: HomePage(),
+      home: BottomNavigation(),
     );
   }
 }
