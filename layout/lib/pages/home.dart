@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
             return Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
               child: Mybox(data[index]['title'], data[index]['subtitle'],
-                  data[index]['image_url']),
+                  data[index]['image_url'], data[index]['detail']),
             );
           },
           itemCount: data.length,
@@ -35,10 +35,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget Mybox(String title, String description, String url) {
+  Widget Mybox(String title, String subtitle, String url, String detail) {
+    var v1, v2, v3, v4;
+    v1 = title;
+    v2 = subtitle;
+    v3 = url;
+    v4 = detail;
+
     return Container(
       padding: EdgeInsets.all(20),
-      height: 150,
+      height: 250,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           // color: Colors.blue[50],
@@ -60,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Text(
-            description,
+            subtitle,
             style: TextStyle(
                 fontSize: 15, color: Colors.white, fontStyle: FontStyle.italic),
           ),
@@ -71,8 +77,10 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.centerRight,
             child: TextButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetailPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetailPage(v1, v2, v3, v4)));
                 },
                 child: Text(
                   "Read more...",
