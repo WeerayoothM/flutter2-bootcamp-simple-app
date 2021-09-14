@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:layout/pages/detail.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:async';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -14,9 +17,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         // snapshot => ลักษณะของข้อมูล
-        var data = json.decode(snapshot.data.toString());
+        // var data = json.decode(snapshot.data.toString());
+        var data = snapshot.data;
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Padding(
@@ -30,8 +34,9 @@ class _HomePageState extends State<HomePage> {
       },
       // function ที่เกี่ยวกับการประมวลผลข้อมูลเผื่อในกรณีที่ data ยังโหลดไม่เสร็จ
       // ได้ผลลัพท์มาเป็นเหมือน list -> snapshot
-      future:
-          DefaultAssetBundle.of(context).loadString('assets/data/data.json'),
+      // future:
+      //     DefaultAssetBundle.of(context).loadString('assets/data/data.json'),
+      future: getData(),
     );
   }
 
@@ -90,5 +95,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Future getData() async {
+    // https://raw.githubusercontent.com/WeerayoothM/flutter-api/main/data.json
+    var url = Uri.https(
+        'raw.githubusercontent.com', '/WeerayoothM/flutter-api/main/data.json');
+    var response = await http.get(url);
+    var result = json.decode(response.body);
+    return result;
   }
 }
