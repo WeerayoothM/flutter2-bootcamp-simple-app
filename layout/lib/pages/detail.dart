@@ -26,6 +26,7 @@ class _DetailPageState extends State<DetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Detail"),
+        backgroundColor: Colors.brown[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
