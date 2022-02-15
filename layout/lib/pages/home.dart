@@ -5,6 +5,7 @@ import 'package:layout/pages/detail.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,27 +17,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      builder: (context, AsyncSnapshot snapshot) {
-        // snapshot => ลักษณะของข้อมูล
-        // var data = json.decode(snapshot.data.toString());
-        var data = snapshot.data;
-        return ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: Mybox(data[index]['title'], data[index]['subtitle'],
-                  data[index]['image_url'], data[index]['detail']),
-            );
-          },
-          itemCount: data.length,
-        );
-      },
-      // function ที่เกี่ยวกับการประมวลผลข้อมูลเผื่อในกรณีที่ data ยังโหลดไม่เสร็จ
-      // ได้ผลลัพท์มาเป็นเหมือน list -> snapshot
-      // future:
-      //     DefaultAssetBundle.of(context).loadString('assets/data/data.json'),
-      future: getData(),
+    return LoaderOverlay(
+      child: FutureBuilder(
+        builder: (context, AsyncSnapshot snapshot) {
+          // snapshot => ลักษณะของข้อมูล
+          // var data = json.decode(snapshot.data.toString());
+          var data = snapshot.data;
+          print('load data');
+          if (data == null) {
+            context.loaderOverlay.show();
+            return Container();
+          }
+          context.loaderOverlay.hide();
+          return ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Mybox(data[index]['title'], data[index]['subtitle'],
+                    data[index]['image_url'], data[index]['detail']),
+              );
+            },
+            itemCount: data.length,
+          );
+        },
+        // function ที่เกี่ยวกับการประมวลผลข้อมูลเผื่อในกรณีที่ data ยังโหลดไม่เสร็จ
+        // ได้ผลลัพท์มาเป็นเหมือน list -> snapshot
+        // future:
+        //     DefaultAssetBundle.of(context).loadString('assets/data/data.json'),
+        future: getData(),
+      ),
     );
   }
 

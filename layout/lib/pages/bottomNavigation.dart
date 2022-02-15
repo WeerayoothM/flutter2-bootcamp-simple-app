@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:layout/pages/add.dart';
 import 'package:layout/pages/contact.dart';
 import 'package:layout/pages/home.dart';
+import 'package:layout/pages/todolist.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
-  final tabs = [HomePage(), ContactPage()];
+  final tabs = [Todolist(), AddPage(), ContactPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Todolist"),
+            BottomNavigationBarItem(icon: Icon(Icons.create), label: "Add"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.contact_mail), label: "Contact"),
           ],
