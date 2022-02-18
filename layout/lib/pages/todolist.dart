@@ -23,27 +23,31 @@ class _TodolistState extends State<Todolist> {
 
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-      child: FutureBuilder(
-        builder: (context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            context.loaderOverlay.show();
-            return Container();
-          }
-          List<Todo> data = snapshot.data;
-          print('load data');
-          print(data[0].title);
-          context.loaderOverlay.hide();
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: TodoItem(data[index].title, data[index].detail));
-            },
-            itemCount: data.length,
-          );
-        },
-        future: fetchTodo(),
+    return Scaffold(
+      appBar: AppBar(title: Text("Totolist")),
+      body: LoaderOverlay(
+        child: FutureBuilder(
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              context.loaderOverlay.show();
+              return Container();
+            }
+            List<Todo> data = snapshot.data;
+            print('load data');
+            print(data[0].title);
+            context.loaderOverlay.hide();
+            return ListView.builder(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: TodoItem(data[index].title, data[index].detail));
+              },
+              itemCount: data.length,
+            );
+          },
+          future: fetchTodo(),
+        ),
       ),
     );
   }
@@ -54,53 +58,73 @@ class _TodolistState extends State<Todolist> {
     v2 = detail;
 
     return Container(
-      padding: EdgeInsets.all(20),
-      height: 250,
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      // height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         // color: Colors.blue[50],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: 22, color: Colors.black, fontWeight: FontWeight.bold),
+          Container(
+            padding: EdgeInsets.all(5.0),
+            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+            decoration:
+                BoxDecoration(color: Colors.black, shape: BoxShape.circle),
           ),
-          SizedBox(
-            height: 10,
+          Container(
+            // decoration:
+            //     BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                      height: 0.5,
+                      fontSize: 22,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  detail,
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontStyle: FontStyle.italic),
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // Container(
+                //   alignment: Alignment.centerRight,
+                //   child: TextButton(
+                //       onPressed: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => DetailPage(v1, v2, v3, v4)));
+                //       },
+                //       child: Text(
+                //         "Read more...",
+                //         style: TextStyle(color: Colors.black),
+                //       )),
+                // )
+              ],
+            ),
           ),
-          Text(
-            detail,
-            style: TextStyle(
-                fontSize: 15, color: Colors.black, fontStyle: FontStyle.italic),
-          ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // Container(
-          //   alignment: Alignment.centerRight,
-          //   child: TextButton(
-          //       onPressed: () {
-          //         Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (context) => DetailPage(v1, v2, v3, v4)));
-          //       },
-          //       child: Text(
-          //         "Read more...",
-          //         style: TextStyle(color: Colors.black),
-          //       )),
-          // )
         ],
       ),
     );
   }
 
   Future fetchTodo() async {
-    const String url = 'http://localhost:8000/todo';
+    const String url = 'https://rxohm.ngrok.io/todo';
     final response = await http.get(Uri.parse(url)); // here i passed http.get
 
     if (response.statusCode == 200) {

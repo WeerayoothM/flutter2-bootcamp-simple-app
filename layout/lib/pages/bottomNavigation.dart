@@ -18,10 +18,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.brown[800],
-          title: Text("แนะนำซีรี่ส์ Harry Potter"),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.brown[800],
+        //   title: Text("แนะนำซีรี่ส์ Harry Potter"),
+        // ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           items: [

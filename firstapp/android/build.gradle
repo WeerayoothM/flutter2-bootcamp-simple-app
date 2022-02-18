@@ -11,6 +11,28 @@ buildscript {
     }
 }
 
+android {
+
+    /**
+     * compileSdkVersion specifies the Android API level Gradle should use to
+     * compile your app. This means your app can use the API features included in
+     * this API level and lower.
+     */
+
+    compileSdk = 31
+
+    /**
+     * buildToolsVersion specifies the version of the SDK build tools, command-line
+     * utilities, and compiler that Gradle should use to build your app. You need to
+     * download the build tools using the SDK Manager.
+     *
+     * This property is optional because the plugin uses a recommended version of
+     * the build tools by default.
+     */
+
+    buildToolsVersion = "30.0.2"
+}
+
 allprojects {
     repositories {
         google()
