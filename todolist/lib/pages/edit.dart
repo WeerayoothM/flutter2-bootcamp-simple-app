@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'dart:convert';
 import 'dart:async';
@@ -47,9 +48,9 @@ class _EditPageState extends State<EditPage> {
                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                 onPressed: () async {
                   print('Delete Id : $_id');
-                  await deleteTodo();
                   String statusMessage = '';
                   try {
+                    await deleteTodo();
                     statusMessage = 'delete success';
                   } catch (err) {
                     print(err);
@@ -133,7 +134,7 @@ class _EditPageState extends State<EditPage> {
   }
 
   Future updateTodo() async {
-    var url = Uri.https('catowner-todolistapi.herokuapp.com', '/todo/${_id}');
+    var url = Uri.https(dotenv.get('BASE_API_URL'), '/todo/${_id}');
     print(url);
     Map<String, String> header = {
       "Content-type": "application/json; charset=UTF-8"

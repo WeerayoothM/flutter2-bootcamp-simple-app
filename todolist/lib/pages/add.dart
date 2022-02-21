@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -93,7 +94,9 @@ class _AddPageState extends State<AddPage> {
 
   Future createTodo() async {
     //
-    var url = Uri.https('catowner-todolistapi.herokuapp.com', '/todo');
+    String baseUrl = dotenv.get('BASE_API_URL');
+    print(baseUrl);
+    var url = Uri.https(baseUrl, '/todo');
     Map<String, String> header = {
       "Content-type": "application/json; charset=UTF-8"
     };

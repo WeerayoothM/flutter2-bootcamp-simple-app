@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:http/http.dart' as http;
@@ -134,7 +135,8 @@ class _TodolistState extends State<Todolist> {
   }
 
   Future fetchTodo() async {
-    const String url = 'https://catowner-todolistapi.herokuapp.com/todo';
+    String baseUrl = dotenv.get('BASE_API_URL');
+    final String url = 'https://$baseUrl/todo';
     final response = await http.get(Uri.parse(url)); // here i passed http.get
 
     if (response.statusCode == 200) {
